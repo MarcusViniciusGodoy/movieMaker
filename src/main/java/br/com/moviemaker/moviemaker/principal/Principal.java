@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import br.com.moviemaker.moviemaker.model.DadosEpisodios;
 import br.com.moviemaker.moviemaker.model.DadosSerie;
 import br.com.moviemaker.moviemaker.model.DadosTemporada;
+import br.com.moviemaker.moviemaker.model.Episodios;
 import br.com.moviemaker.moviemaker.service.ConsumoApi;
 import br.com.moviemaker.moviemaker.service.ConverteDados;
 
@@ -49,5 +50,11 @@ public class Principal {
                 .sorted(Comparator.comparing(DadosEpisodios::avaliacao).reversed())
                 .limit(5)
                 .forEach(System.out::println);
+
+        List<Episodios> episodios = temporadas.stream()
+                .flatMap(t -> t.episodios().stream()
+                .map(d -> new Episodios(t.numero(), d))
+                ).collect(Collectors.toList());
+        episodios.forEach(System.out::println);
     }
 }
