@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collector;
@@ -66,7 +67,8 @@ public class Principal {
 
         episodios.forEach(System.out::println);
 
-        System.out.println("Digite um trecho do titulo do episodio: ");
+        //Filtro busca por trecho do episódio
+        /*System.out.println("Digite um trecho do titulo do episodio: ");
         var trechoTitulo = leitura.nextLine();
         Optional<Episodios> episodioBuscado = episodios.stream()
                  .filter(e -> e.getTitulo().toUpperCase().contains(trechoTitulo.toUpperCase()))
@@ -76,7 +78,8 @@ public class Principal {
             System.out.println("Temporada: " + episodioBuscado.get().getTemporada());
         } else {
             System.out.println("Episódio não encontrado.");
-        }
+        }*/
+
         /*System.out.println("A partir de qual ano você deseja ver os episódios?");
         var ano = leitura.nextInt();
         leitura.nextLine();
@@ -92,5 +95,12 @@ public class Principal {
             " Episódio: " + e.getTitulo() +
             " Data lançamento: " + e.getDataLancamento().format(formatador)
         ));*/
+
+        //Dados por temporada
+        Map<Integer, Double> avaliacoesPorTemporada = episodios.stream()
+            .filter(e -> e.getAvaliacao() > 0.0)
+            .collect(Collectors.groupingBy(Episodios::getTemporada, 
+            Collectors.averagingDouble(Episodios::getAvaliacao)));
+        System.out.println(avaliacoesPorTemporada);
     }
 }
