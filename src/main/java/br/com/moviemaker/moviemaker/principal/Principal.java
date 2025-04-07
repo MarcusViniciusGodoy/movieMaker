@@ -102,15 +102,16 @@ public class Principal {
             .filter(e -> e.getAvaliacao() > 0.0)
             .collect(Collectors.groupingBy(Episodios::getTemporada, 
             Collectors.averagingDouble(Episodios::getAvaliacao)));
-        System.out.println(avaliacoesPorTemporada);
+        avaliacoesPorTemporada.forEach((temporada, avaliacao) -> 
+        System.out.printf("Temporada %d: %.2f\n", temporada, avaliacao));
 
         //Coletando estatísticas
         DoubleSummaryStatistics est = episodios.stream()
             .filter(e -> e.getAvaliacao() > 0.0)
             .collect(Collectors.summarizingDouble(Episodios::getAvaliacao));
-        System.out.println("Média: " + est.getAverage());
-        System.out.println("Melhor episódio: " + est.getMax());
-        System.out.println("Pior episódio: " + est.getMin());
-        System.out.println("Quantidade: " + est.getCount());
+        System.out.printf("Média: %.2f\n", est.getAverage());
+        System.out.printf("Melhor episódio: %.2f\n", est.getMax());
+        System.out.printf("Pior episódio: %.2f\n", est.getMin());
+        System.out.printf("Quantidade: %d\n", est.getCount());
     }
 }
