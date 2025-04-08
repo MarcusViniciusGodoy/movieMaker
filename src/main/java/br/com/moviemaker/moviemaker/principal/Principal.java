@@ -15,6 +15,7 @@ import br.com.moviemaker.moviemaker.model.DadosEpisodios;
 import br.com.moviemaker.moviemaker.model.DadosSerie;
 import br.com.moviemaker.moviemaker.model.DadosTemporada;
 import br.com.moviemaker.moviemaker.model.Episodios;
+import br.com.moviemaker.moviemaker.model.Serie;
 import br.com.moviemaker.moviemaker.service.ConsumoApi;
 import br.com.moviemaker.moviemaker.service.ConverteDados;
 
@@ -90,6 +91,12 @@ public class Principal {
         }
 
         private void listarSeriesBuscadas(){
-            dadosSeries.forEach(System.out::println);
+            List<Serie> series = new ArrayList<>();
+            series = dadosSeries.stream()
+                    .map(d -> new Serie(d))
+                    .collect(Collectors.toList());
+            series.stream()
+                    .sorted(Comparator.comparing(Serie::getGenero))
+                    .forEach(System.out::println);
         }
 }
