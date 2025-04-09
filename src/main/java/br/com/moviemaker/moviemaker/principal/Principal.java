@@ -11,11 +11,14 @@ import java.util.Scanner;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.com.moviemaker.moviemaker.model.DadosEpisodios;
 import br.com.moviemaker.moviemaker.model.DadosSerie;
 import br.com.moviemaker.moviemaker.model.DadosTemporada;
 import br.com.moviemaker.moviemaker.model.Episodios;
 import br.com.moviemaker.moviemaker.model.Serie;
+import br.com.moviemaker.moviemaker.repository.SerieRepository;
 import br.com.moviemaker.moviemaker.service.ConsumoApi;
 import br.com.moviemaker.moviemaker.service.ConverteDados;
 
@@ -29,6 +32,12 @@ public class Principal {
     private final String API_KEY = "&apikey=6585022c";
 
     private List<DadosSerie> dadosSeries = new ArrayList<>();
+
+    private SerieRepository repository;
+
+    public Principal(SerieRepository repository) {
+        this.repository = repository;
+    }
 
     public void exibeMenu(){
         var opcao = -1;
@@ -66,7 +75,8 @@ public class Principal {
         
         private void buscarSerieWeb(){
             DadosSerie dados = getDadosSerie();
-            dadosSeries.add(dados);
+            Serie serie = new Serie(dados);
+            repository.save(serie);
             System.out.println(dados);
         }
 
