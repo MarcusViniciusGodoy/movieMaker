@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,7 +35,7 @@ public class Serie {
     private String poster;
     private String sinopse;
 
-    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Episodios> episodios = new ArrayList<>();
 
     public Serie(){
@@ -106,19 +107,7 @@ public class Serie {
     public void setSinopse(String sinopse) {
         this.sinopse = sinopse;
     }
-
-    @Override
-    public String toString() {
-        return 
-           "genero=" + genero +
-           ", titulo='" + titulo + '\'' +
-           ", totalTemporadas=" + totalTemporadas +
-           ", avaliacao=" + avaliacao +
-           ", atores='" + atores + '\'' +
-           ", poster='" + poster + '\'' +
-           ", sinopse'" + sinopse + '\'';
-    }
-
+   
     public Long getId() {
         return id;
     }
@@ -132,6 +121,20 @@ public class Serie {
     }
 
     public void setEpisodios(List<Episodios> episodios) {
+        episodios.forEach(e -> e.setSerie(this));
         this.episodios = episodios;
+    }
+
+    @Override
+    public String toString() {
+        return 
+           "genero=" + genero +
+           ", titulo='" + titulo + '\'' +
+           ", totalTemporadas=" + totalTemporadas +
+           ", avaliacao=" + avaliacao +
+           ", atores='" + atores + '\'' +
+           ", poster='" + poster + '\'' +
+           ", sinopse'" + sinopse + '\''+
+           ", episodios'" + episodios + '\'';
     }
 }
