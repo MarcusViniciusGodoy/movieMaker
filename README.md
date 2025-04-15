@@ -1,5 +1,5 @@
 # MovieMaker
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/MarcusViniciusGodoy/TechTime/blob/main/LICENSE)
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/MarcusViniciusGodoy/movieMaker/blob/main/LICENSE)
 
 # Sobre o projeto
 
