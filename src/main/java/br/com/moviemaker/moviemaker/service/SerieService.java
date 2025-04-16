@@ -1,6 +1,7 @@
 package br.com.moviemaker.moviemaker.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,16 @@ public class SerieService {
 
     public List<SerieDTO> obterLancamentos() {
         return converteDados(repository.findTop5ByOrderByEpisodiosDataLancamentoDesc());
+    }
+
+    public SerieDTO obterPorId(Long id) {
+        Optional<Serie> serie = repository.findById(id);
+        if (serie.isPresent()){
+            Serie s = serie.get();
+            return new SerieDTO(s.getId(), s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao(),
+            s.getGenero(), s.getAtores(), s.getPoster(), s.getSinopse());
+        }
+        return null;
     }
 
     private List<SerieDTO> converteDados(List<Serie> series){
