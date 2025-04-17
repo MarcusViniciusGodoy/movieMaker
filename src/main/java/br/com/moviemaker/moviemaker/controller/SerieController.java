@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.moviemaker.moviemaker.dto.EpisodioDTO;
 import br.com.moviemaker.moviemaker.dto.SerieDTO;
 import br.com.moviemaker.moviemaker.service.SerieService;
 
@@ -36,5 +37,10 @@ public class SerieController {
     @GetMapping("/{id}") 
     public SerieDTO obterPorId(@PathVariable Long id){
         return service.obterPorId(id);
+    }
+
+    @GetMapping("/{id}/temporadas/todas")
+    public List<EpisodioDTO> obterTodasTemporadas(@PathVariable Long id){
+        return service.obterTodasTemporadas(id);
     }
 }

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.moviemaker.moviemaker.dto.EpisodioDTO;
 import br.com.moviemaker.moviemaker.dto.SerieDTO;
 import br.com.moviemaker.moviemaker.model.Serie;
 import br.com.moviemaker.moviemaker.repository.SerieRepository;
@@ -44,5 +45,14 @@ public class SerieService {
             s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao(),
             s.getGenero(), s.getAtores(), s.getPoster(), s.getSinopse()))
             .collect(Collectors.toList());
+    }
+
+    public List<EpisodioDTO> obterTodasTemporadas(Long id) {
+        Optional<Serie> serie = repository.findById(id);
+        if (serie.isPresent()){
+            Serie s = serie.get();
+            return s.getEpisodios().stream().map(e -> new EpisodioDTO(e.getTemporada(), e.getNumeroEpisodio(), e.getTitulo())).collect(Collectors.toList());
+        }
+        return null;
     }
 }
