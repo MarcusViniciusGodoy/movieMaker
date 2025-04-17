@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.moviemaker.moviemaker.dto.EpisodioDTO;
 import br.com.moviemaker.moviemaker.dto.SerieDTO;
+import br.com.moviemaker.moviemaker.model.Categoria;
 import br.com.moviemaker.moviemaker.model.Serie;
 import br.com.moviemaker.moviemaker.repository.SerieRepository;
 
@@ -59,5 +60,10 @@ public class SerieService {
     public List<EpisodioDTO> obterTemporadasPorNumero(Long id, Long numero) {
         return repository.obterEpisodiosPorTemporada(id, numero)
         .stream().map (e -> new EpisodioDTO(e.getTemporada(), e.getNumeroEpisodio(), e.getTitulo())).collect(Collectors.toList());
+    }
+
+    public List<SerieDTO> obterSeriesPorCategoria(String nome) {
+        Categoria categoria = Categoria.fromPortugues(nome);
+        return converteDados(repository.findByGenero(categoria));
     }
 }
