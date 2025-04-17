@@ -66,4 +66,11 @@ public class SerieService {
         Categoria categoria = Categoria.fromPortugues(nome);
         return converteDados(repository.findByGenero(categoria));
     }
+
+    public List<SerieDTO> obterSeriesBuscadas(String nome) {
+        return repository.buscaSerie(nome).stream().map (s -> new SerieDTO(s.getId(),
+        s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao(),
+        s.getGenero(), s.getAtores(), s.getPoster(), s.getSinopse()))
+        .collect(Collectors.toList());
+    }
 }
