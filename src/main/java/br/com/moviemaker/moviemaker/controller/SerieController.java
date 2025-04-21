@@ -54,8 +54,13 @@ public class SerieController {
         return service.obterSeriesPorCategoria(nome);
     }
 
-    @GetMapping("/busca/{nome}") 
-    public List<SerieDTO> obterSeriesBuscadas(@PathVariable String nome){
-        return service.obterSeriesBuscadas(nome);
+    @GetMapping("/busca") 
+    public List<SerieDTO> obterSeriesBuscadasSemTitulo(){
+        return service.obterSeriesBuscadasSemTitulo();
+    }
+
+    @GetMapping("/busca/{titulo}") 
+    public List<SerieDTO> obterSeriesBuscadasPorTitulo(@PathVariable String titulo){
+        return service.obterSeriesBuscadasPorTitulo(titulo);
     }
 }
