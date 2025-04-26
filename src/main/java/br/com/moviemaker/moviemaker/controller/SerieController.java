@@ -1,8 +1,12 @@
 package br.com.moviemaker.moviemaker.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.moviemaker.moviemaker.dto.EpisodioDTO;
 import br.com.moviemaker.moviemaker.dto.SerieDTO;
+import br.com.moviemaker.moviemaker.exception.ErroResponse;
 import br.com.moviemaker.moviemaker.service.SerieService;
 
 @RestController
@@ -59,8 +64,24 @@ public class SerieController {
         return service.obterSeriesBuscadasSemTitulo();
     }
 
-    @GetMapping("/busca/{titulo}") 
-    public List<SerieDTO> obterSeriesBuscadasPorTitulo(@PathVariable String titulo){
-        return service.obterSeriesBuscadasPorTitulo(titulo);
+    @GetMapping("/busca/{titulo}")
+    public ResponseEntity<?> obterSeriesBuscadasPorTitulo(@PathVariable String titulo) {
+        try {
+            List<SerieDTO> series = service.obterSeriesBuscadasPorTitulo(titulo);
+    
+            if (series.isEmpty()) {
+                // Se a lista estiver vazia, retorna uma resposta de erro customizada
+                ErroResponse erro = new ErroResponse("Nenhuma série encontrada", "Não foi possível encontrar séries para o título: " + titulo);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+            }
+    
+            // Se encontrar as séries, retorna elas normalmente
+            return ResponseEntity.ok(series);
+    
+        } catch (Exception e) {
+            // Caso algum erro inesperado aconteça, retorna uma resposta de erro com a mensagem
+            ErroResponse erro = new ErroResponse("Erro interno do servidor", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erro);
+        }
     }
 }

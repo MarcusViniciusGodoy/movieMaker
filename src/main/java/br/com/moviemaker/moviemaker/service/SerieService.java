@@ -72,6 +72,8 @@ public class SerieService {
     }
 
     public List<SerieDTO> obterSeriesBuscadasPorTitulo(String titulo) {
-        return converteDados(repository.buscaSerie(titulo));
+        List<Serie> series = repository.buscaSerie(titulo);
+
+        return converteDados(series);
     }
 }
